@@ -1,0 +1,86 @@
+<div class="flex-container-head" fxLayout="row"  fxLayoutAlign="space-between start">
+    <h3 style="font-weight: 400;">Manage Bill Rates</h3>
+</div>
+<mat-divider class="head"></mat-divider>
+<div class="flex-container" fxLayout="row"  fxLayoutAlign="space-between start">
+    <div class="flex-column" fxFlex="70" fxLayout="column"  fxLayoutAlign="start" fxLayoutGap="20px">
+        <div fxFill class="flex-container" fxLayout="row" fxLayoutAlign="space-between start">
+            <mat-form-field>
+                <mat-label>Search Bill Rate</mat-label>
+                <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+        </div>
+        <div fxFill class="flex-container" fxLayout="row" fxLayoutAlign="space-between">
+            <div class="mat-elevation-z8" id="tableContainer" fxFlex="95" fxLayoutAlign="center" fxLayout="column">
+                
+                <table mat-table [dataSource]="dataSource">
+            
+                    <ng-container matColumnDef="ID">
+                        <th mat-header-cell *matHeaderCellDef> S.No </th>
+                        <td mat-cell *matCellDef="let row; let i = index;"> {{i+1}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="BillRate">
+                        <th mat-header-cell *matHeaderCellDef> Bill Rate </th>
+                        <td mat-cell *matCellDef="let row"> {{row.bill_rate}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns sticky:true;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div fxFlex="3" fxLayout="column"  fxLayoutAlign="center start">
+        <div  class="flex-container" fxLayout="row" style="margin-top: 2.5em; ">
+        <mat-divider [vertical]="true" style="height: 560px;"></mat-divider>
+        </div>
+      </div>
+
+    <div class="flex-right-column" fxFlex="30" fxLayout="column"  fxLayoutAlign="start" fxLayoutGap="20px">
+        <div fxFill class="right-header" fxLayout="row" fxLayoutAlign="center">
+            <h3 style="font-weight: 500;justify-content: center;color: white;">Add New BillRate</h3>
+        </div>
+        <div class="flex-container" fxLayout="row" fxLayoutAlign="space-evenly center">
+            <mat-error *ngIf="errorMessage==true">{{this.billRateForm.value}} is already exists.</mat-error>
+        </div>
+        <div fxFill class="flex-container" fxLayout="row" fxLayoutAlign="space-between start">
+            <div fxFlex="95" fxLayoutAlign="center" fxLayout="column">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                        Add Bill Rate
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <form novalidate autocomplete="off" [formGroup]="billRateForm" (ngSubmit)="onSubmit()">
+                    <mat-form-field>
+                        <mat-label>Bill Rate</mat-label>
+                        <input matInput type="number" formControlName="bill_rate"
+                        [ngClass]="{'is-invalid': (billRateForm.get('bill_rate').touched ||
+                        billRateForm.get('bill_rate').dirty) &&
+                        !billRateForm.get('bill_rate').valid }" required>
+                        <mat-error *ngIf="billRateForm.get('bill_rate').errors?.required">
+                            This field is Required.
+                         </mat-error>
+                         
+                    </mat-form-field>
+                    <mat-action-row>
+                        <button mat-mini-fab color="primary" [disabled]="!billRateForm.valid"><mat-icon>add_circle</mat-icon></button>
+                    </mat-action-row>
+                </form>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="panelOpenState = true"
+                                        (closed)="panelOpenState = false">
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+</div>

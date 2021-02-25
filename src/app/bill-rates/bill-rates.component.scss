@@ -1,0 +1,27 @@
+.flex-column{
+    padding-top: 1.5em;padding-left: 1.5em;
+}
+.flex-container-head{
+    padding-left: 1.5em;
+    color:#673AB7;
+}
+#tableContainer{
+    overflow: auto;
+    max-height: 400px;
+}
+table {
+    width: 100%;
+  }
+  td, th {
+    width: 20%;
+    text-align: center!important;
+  }
+  th{
+    font-size: 1em;
+    color:#673AB7;
+  }
+.right-header{
+    border-radius: 0px 0px 0px 15px;
+    background-color:#ef9740 !important;
+    height: 3em!important;
+}

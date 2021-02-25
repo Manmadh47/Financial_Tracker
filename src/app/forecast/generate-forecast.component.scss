@@ -1,0 +1,33 @@
+.flex-column{
+  background-color: rgb(201, 198, 198);
+  padding-bottom: 9.3em;
+}
+.card{ 
+    border-radius: 4em 4em 0em 0em;
+    margin-top: 1.5em;
+    width: 50%!important;
+    //margin-left: 18.5em;margin-right: 18.5em;
+  }
+  .body-card{
+    border-radius: 0em 0em 4em 4em;
+    width: 50%!important;
+  }
+  .header{
+    border-radius: 4em 4em 0em 0em;
+    background-color:#ef9740;
+    color: white;
+    padding-top: 10px;
+    margin: -0.9em -0.8em 0em -0.8em!important;
+  }
+  .reset{
+    margin-top: 1em;
+    height: 2.5em;
+    width: 2.5em;
+    background-color: #5bc0de!important;
+  }
+  .resetIcon{
+    font-size: 1.5em;
+  }
+  button{
+    margin-bottom: -9em!important;
+  }

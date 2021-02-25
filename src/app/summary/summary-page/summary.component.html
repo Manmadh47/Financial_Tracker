@@ -1,0 +1,250 @@
+<div class="flex-container" fxLayout="row"  fxLayoutAlign="space-between start" >
+  <div class="flex-column" fxFlex="50" fxLayout="column"  fxLayoutAlign="start" fxLayoutGap="20px">
+      <div fxFill class="flex-container" fxLayout="row" fxLayoutAlign="space-evenly start">
+          <div fxFlex="25"  fxLayoutAlign="center" fxLayout="column" fxLayoutGap="32px" >
+            <mat-form-field>
+                <mat-label>Year</mat-label>
+                <select matNativeControl (change)="onChangeYear($event.target.value)">
+                    <option [value]="">select year</option>
+                  <option *ngFor="let year of yearValues" [value]="year">
+                    {{year}}
+                  </option>
+                </select>
+              </mat-form-field>
+          </div>
+          <div fxFlex="25" fxLayoutAlign="center" fxLayout="column" fxLayoutGap="32px" >
+              <mat-form-field >
+                <mat-label>Month</mat-label>
+                <select matNativeControl (change)="onChangeMonth($event.target.value)" >
+                  <option [value]="">select month</option>
+                  <option *ngFor="let month of monthValues" [value]="month">
+                      {{month | titlecase }}
+                  </option>
+                </select>
+              </mat-form-field>
+          </div>
+    </div>
+    <div  class="flex-container" fxLayout="row"  fxLayoutAlign="space-between">
+      <div fxFlex="95" fxLayoutAlign="center" fxLayout="column">
+          <mat-card class="card" >
+              <mat-card-header class="cardHeader">
+                  <div fxFlex="80">Overall Summary </div>
+                  <div fxFlex="10">{{latestMonth}}</div>
+              </mat-card-header>
+              <mat-card-content [style.height.px]="'384'">
+                <div fxLayout="row"> 
+                  <div id="chartContainer"></div>
+                </div>
+                <div fxLayout="row"> 
+                  <div fxFlex="35" fxLayout="column">
+                    <button mat-button color="primary">REVENUE : {{this.uploadService.data.sum_of_revenue | currency}}</button>
+                  </div>
+                  <div fxFlex="33" fxLayout="column">
+                    <button mat-button color="primary">GPM : {{this.uploadService.data.sum_of_gpm | currency}}</button>
+                  </div>
+                  <div fxFlex="33" fxLayout="column">
+                    <button mat-button color="primary">EBITDA : {{this.uploadService.data.sum_of_ebitda | currency}}</button>
+                  </div>
+                </div>
+              </mat-card-content>
+          </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div fxFlex="3" fxLayout="column"  fxLayoutAlign="center start">
+    <div  class="flex-container" fxLayout="row" style="margin-top: 2.5em; ">
+    <mat-divider [vertical]="true" style="height: 560px;"></mat-divider>
+    </div>
+  </div>
+
+  <div fxFlex="60" class="flex-column" fxLayout="column"  fxLayoutAlign="start" fxLayoutGap="20px">
+    <div fxFill class="flex-container" fxLayout="row" fxLayoutAlign="space-evenly start">
+      <div fxFlex="25"  fxLayoutAlign="center" fxLayout="column" fxLayoutGap="32px" >
+        <mat-form-field>
+            <mat-label>Year</mat-label>
+            <select matNativeControl (change)="rhsYear($event.target.value)">
+                <option [value]="">select year</option>
+              <option *ngFor="let year of yearValues" [value]="year">
+                {{year}}
+              </option>
+            </select>
+          </mat-form-field>
+      </div>
+      <div fxFlex="25" fxLayoutAlign="center" fxLayout="column" fxLayoutGap="32px" >
+          <mat-form-field >
+            <mat-label>Month</mat-label>
+            <select matNativeControl (change)="rhsMonth($event.target.value)" >
+              <option [value]="">select month</option>
+              <option *ngFor="let month of rhsMonthValues" [value]="month">
+                  {{month | titlecase }}
+              </option>
+            </select>
+          </mat-form-field>
+      </div>
+      <div fxFlex="25" fxLayoutAlign="end" fxLayout="column" fxLayoutGap="32px">
+          <mat-form-field>
+              <mat-label>Project Name</mat-label>
+              <select matNativeControl (change)="onChangeProject($event.target.value)">
+                <option [value]="">select project</option>
+                <option *ngFor="let project of rhsProjectValues" [value]="project">
+                  {{project}}
+              </option>
+              </select>
+            </mat-form-field>
+      </div>
+    </div>
+    <div  class="flex-container" fxLayout="row"  fxLayoutAlign="space-between">
+      <div fxFlex="95" fxLayoutAlign="center" fxLayout="column">
+      <mat-card >
+        <mat-card-header style="background-color: #673AB7!important;">
+          <div fxFlex="10">Project:</div>
+          <div fxFlex="80">{{summaryService.data.project_id}}</div>
+      </mat-card-header>
+          <div class="flex-card" flex="66" flex-sm="33">
+                  <div class="flex-row-head" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center">
+                    <div fxFlex="39"></div>
+                    <div fxFlex="14"fxLayoutAlign="start"><u>Global</u></div>
+                    <div fxFlex="15" fxLayoutAlign="start"><u>Onshore</u></div>
+                    <div fxFlex="17" fxLayoutAlign="start"><u>Offshore</u></div>
+                  </div>
+          <mat-card-content class="content">
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Hours per resource</div>
+              <div fxFlex="15">  </div>
+              <div fxFlex="15"> {{summaryService.data.on_available_hours}}</div>
+              <div fxFlex="15"> {{summaryService.data.off_available_hours}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Billable FTE</div>
+              <div fxFlex="15"> {{summaryService.data.global_billable_fte}} </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_billable_fte}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_billable_fte}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Billed FTE</div>
+              <div fxFlex="15"> {{summaryService.data.global_billed_fte}}  </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_billed_fte}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_billed_fte}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Non Billed FTE</div>
+              <div fxFlex="15"> {{summaryService.data.global_nb_fte}} </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_nb_fte}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_nb_fte}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Vacation FTE</div>
+              <div fxFlex="15"> {{summaryService.data.global_vacation_fte}} </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_vacation_fte}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_vacation_fte}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Knowledge Transfer FTE</div>
+              <div fxFlex="15"> {{summaryService.data.global_knowledge_fte}}</div>
+              <div fxFlex="15"> {{summaryService.data.onshore_knowledge_fte}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_knowledge_fte}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Planned Buffer FTE</div>
+              <div fxFlex="15"> {{summaryService.data.global_planned_fte}} </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_planned_fte}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_planned_fte}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Contractual Buffer FTE</div>
+              <div fxFlex="15"> {{summaryService.data.global_contract_fte}} </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_contract_fte}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_contract_fte}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Released/Resigned FTE</div>
+              <div fxFlex="15">{{summaryService.data.global_released_fte}}  </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_released_fte}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_released_fte}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Account Management</div>
+              <div fxFlex="15">{{summaryService.data.global_account_manage}}  </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_account_manage}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_account_manage}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">No Cost Fresher</div>
+              <div fxFlex="15">{{summaryService.data.global_noCost_fresher}}  </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_noCost_fresher}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_noCost_fresher}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Total revenue</div>
+              <div fxFlex="15">{{summaryService.data.global_revenue}}  </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_revenue}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_revenue}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Resource cost</div>
+              <div fxFlex="15"> {{summaryService.data.global_resource_cost}} </div>
+              <div fxFlex="15">  {{summaryService.data.onshore_resource_cost}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_resource_cost}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">VISA Expense</div>
+              <div fxFlex="15"> {{summaryService.data.visa_expense}} </div>
+              <div fxFlex="15"> -</div>
+              <div fxFlex="15"> - </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Misc Expense (Trip/Outing)</div>
+              <div fxFlex="15"> {{summaryService.data.misc_expense}} </div>
+              <div fxFlex="15"> -</div>
+              <div fxFlex="15"> -</div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Direct cost(cab, headset etc)</div>
+              <div fxFlex="15"> {{summaryService.data.global_direct_cost}}</div>
+              <div fxFlex="15"> {{summaryService.data.onshore_direct_cost}}</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_direct_cost}} </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Total cost</div>
+              <div fxFlex="15">{{summaryService.data.total_cost}}</div>
+              <div fxFlex="15">-</div>
+              <div fxFlex="15">-</div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Gross Margin $</div>
+              <div fxFlex="15">{{summaryService.data.GPM}}</div>
+              <div fxFlex="15">-</div>
+              <div fxFlex="15">- </div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">GPM %</div>
+              <div fxFlex="15"> {{summaryService.data.gpm_percent }}</div>
+              <div fxFlex="15"> -</div>
+              <div fxFlex="15"> -</div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">Seat cost</div>
+              <div fxFlex="15">{{summaryService.data.seat_cost}}</div>
+              <div fxFlex="15"> -</div>
+              <div fxFlex="15"> {{summaryService.data.offshore_seat_cost}}</div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">EBITDA Amount</div>
+              <div fxFlex="15">{{summaryService.data.EBITDA}} </div>
+              <div fxFlex="15">- </div>
+              <div fxFlex="15"> -</div>
+            </div>
+            <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+              <div fxFlex="40">EBITDA</div>
+              <div fxFlex="15">{{uploadService.data.ebitda_percent}}</div>
+              <div fxFlex="15">-</div>
+              <div fxFlex="15">-</div>
+            </div>
+              </mat-card-content>
+          </div>
+        </mat-card>
+        </div>
+        </div>
+  </div>
+</div>

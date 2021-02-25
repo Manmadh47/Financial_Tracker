@@ -1,0 +1,14 @@
+<div class="flex-container"fxLayout="column">
+    <div class="" fxFlex="50" fxLayout="row">
+      <span class="content-span">Are you sure to submit?</span>
+    </div>
+    <br>
+    <div class="buttonRow" fxLayout="row" fxLayoutAlign="space-between start">
+        <div >
+        <button mat-flat-button fxFlex="50" color="warn" id="no-button" [mat-dialog-close]="false"><mat-icon>close</mat-icon></button>
+        </div>
+        <div>
+        <button mat-flat-button fxFlex="50" (click)="confirm()" id="yes-button" [mat-dialog-close]="true"><mat-icon>done</mat-icon></button>
+    </div>
+    </div>
+</div>

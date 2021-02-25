@@ -1,0 +1,24 @@
+header{
+    margin:-1.5em -1.5em 0em -1em;
+    background-color: rgb(199, 179, 136);
+    padding: 12px 12px 0px 12px;
+    border-radius: 0px 0px 0px 25px;
+  }
+  .flex-row{
+    min-height: 2em;
+    border:1px solid rgb(221, 219, 219);
+    border-radius: 5px;
+    margin-top: 0.5em;
+    &:hover{
+      background-color:transparent;
+    } 
+  }
+  .flex-row div:first-child{
+    color:#673ab7;
+    padding-left: 1em;
+  }
+  ::ng-deep .mat-dialog-container {
+    overflow-y: hidden !important;
+  }
+  .close{width:0.5em;border:2px solid whitesmoke;border-radius:5em;}
+  

@@ -1,0 +1,162 @@
+<header class="flex-container" fxLayout="row" fxLayoutAlign="space-between start">
+    <div fxFlex="40">Summary <small>for&nbsp;</small>{{uploadService.data.month}}</div>
+    <div mat-dialog-title class="mat-headline" fxFlex="50">{{uploadService.data.project_id}}</div>
+    <div fxFlex > <button mat-mini-fab color="" mat-dialog-close><mat-icon>clear</mat-icon></button></div>
+</header>
+<br>
+
+<div class="flex-container" flex="66" flex-sm="33">
+<div class="flex-row-head" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center">
+  <div fxFlex="36"></div>
+  <div fxFlex="13">
+    <mat-chip-list >
+      <mat-chip color="primary" selected>Global</mat-chip></mat-chip-list>
+    </div>
+    <div fxFlex="16"> 
+      <mat-chip-list >
+      <mat-chip color="accent" selected>Onshore</mat-chip></mat-chip-list>
+    </div>
+    <div fxFlex="20"> 
+      <mat-chip-list >
+      <mat-chip color="warn" selected>Offshore</mat-chip></mat-chip-list>
+    </div>
+</div>
+<mat-dialog-content>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Hours per resource</div>
+      <div fxFlex="15">  </div>
+      <div fxFlex="15"> {{uploadService.data.on_available_hours}}</div>
+      <div fxFlex="15"> {{uploadService.data.off_available_hours}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Billable FTE</div>
+      <div fxFlex="15"> {{uploadService.data.global_billable_fte}} </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_billable_fte}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_billable_fte}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Billed FTE</div>
+      <div fxFlex="15"> {{uploadService.data.global_billed_fte}}  </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_billed_fte}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_billed_fte}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Non Billed FTE</div>
+      <div fxFlex="15"> {{uploadService.data.global_nb_fte}} </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_nb_fte}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_nb_fte}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Vacation FTE</div>
+      <div fxFlex="15"> {{uploadService.data.global_vacation_fte}} </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_vacation_fte}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_vacation_fte}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Knowledge Transfer FTE</div>
+      <div fxFlex="15"> {{uploadService.data.global_knowledge_fte}}</div>
+      <div fxFlex="15"> {{uploadService.data.onshore_knowledge_fte}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_knowledge_fte}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Planned Buffer FTE</div>
+      <div fxFlex="15"> {{uploadService.data.global_planned_fte}} </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_planned_fte}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_planned_fte}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Contractual Buffer FTE</div>
+      <div fxFlex="15"> {{uploadService.data.global_contract_fte}} </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_contract_fte}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_contract_fte}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Released/Resigned FTE</div>
+      <div fxFlex="15">{{uploadService.data.global_released_fte}}  </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_released_fte}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_released_fte}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Account Management</div>
+      <div fxFlex="15">{{uploadService.data.global_account_manage}}  </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_account_manage}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_account_manage}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">No Cost Fresher</div>
+      <div fxFlex="15">{{uploadService.data.global_noCost_fresher}}  </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_noCost_fresher}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_noCost_fresher}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Total revenue</div>
+      <div fxFlex="15">{{uploadService.data.global_revenue}}  </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_revenue}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_revenue}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Resource cost</div>
+      <div fxFlex="15"> {{uploadService.data.global_resource_cost}} </div>
+      <div fxFlex="15">  {{uploadService.data.onshore_resource_cost}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_resource_cost}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">VISA Expense</div>
+      <div fxFlex="15"> {{uploadService.data.visa_expense}} </div>
+      <div fxFlex="15"> -</div>
+      <div fxFlex="15"> - </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Misc Expense (Trip/Outing)</div>
+      <div fxFlex="15"> {{uploadService.data.misc_expense}} </div>
+      <div fxFlex="15"> -</div>
+      <div fxFlex="15"> -</div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Direct cost(cab, headset etc)</div>
+      <div fxFlex="15"> {{uploadService.data.global_direct_cost}}</div>
+      <div fxFlex="15"> {{uploadService.data.onshore_direct_cost}}</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_direct_cost}} </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Total cost</div>
+      <div fxFlex="15">{{uploadService.data.total_cost}}</div>
+      <div fxFlex="15">-</div>
+      <div fxFlex="15">-</div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Gross Margin $</div>
+      <div fxFlex="15">{{uploadService.data.GPM}}</div>
+      <div fxFlex="15">-</div>
+      <div fxFlex="15">- </div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">GPM %</div>
+      <div fxFlex="15"> {{uploadService.data.gpm_percent }}</div>
+      <div fxFlex="15"> -</div>
+      <div fxFlex="15"> -</div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">Seat cost</div>
+      <div fxFlex="15">{{uploadService.data.seat_cost}}</div>
+      <div fxFlex="15"> -</div>
+      <div fxFlex="15"> {{uploadService.data.offshore_seat_cost}}</div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">EBITDA Amount</div>
+      <div fxFlex="15">{{uploadService.data.EBITDA}} </div>
+      <div fxFlex="15">- </div>
+      <div fxFlex="15"> -</div>
+    </div>
+    <div class="flex-row" flexLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">EBITDA</div>
+      <div fxFlex="15">{{uploadService.data.ebitda_percent}}</div>
+      <div fxFlex="15">-</div>
+      <div fxFlex="15">-</div>
+    </div>
+</mat-dialog-content>
+</div>
+
+
+
+  

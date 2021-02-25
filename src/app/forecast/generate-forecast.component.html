@@ -1,0 +1,77 @@
+
+<div fxFill class="flex-column" fxLayout="column"  fxLayoutAlign="start" fxLayoutGap="10px">
+  <div fxLayout="row" fxLayoutAlign="space-evenly center" >
+    <mat-card class="card" >
+      <mat-card-header class="header">
+        <div fxFlex="100" fxLayoutAlign="center"><mat-card-title>Generate Forecast</mat-card-title></div>
+      </mat-card-header>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="space-between start">
+      <h4 style="font-weight: 30;color: #673AB7;">Latest Available Data</h4>
+      <div fxFlex="30" fxLayoutAlign="end">
+        <span><button mat-mini-fab (click)="reset()" class="reset">
+          <mat-icon class="resetIcon">cached</mat-icon></button>&nbsp;Reset</span>
+    </div>
+    </div>
+    <mat-card-content [style.height.px]="'60'">
+      <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-evenly start" fxLayoutGap.xs="30px">
+        <mat-form-field>
+          <mat-label>Project Name</mat-label>
+          <select matNativeControl (change)="onChangeProject($event.target.value)">
+            <option selected>select project</option>
+            <option *ngFor="let project of projectValues" [value]="project">
+              {{project}}
+          </option>
+          </select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="30" fxLayout="column" fxLayoutAlign="space-evenly end">
+        <span>Month :<b> {{latestMonth}}</b></span>
+      </div>
+      <div fxFlex="20" fxLayout="column" fxLayoutAlign="space-evenly end">
+        <span>Year : <b>{{latestYear}}</b></span> 
+        </div>
+    </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-card class="body-card" >
+      <div class="flex-container" fxLayout="row" fxLayoutAlign="space-evenly center">
+        <span style="color:red;">{{message}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between start">
+        <h4 *ngIf="[message]" style="font-weight: 30;color: #673AB7;">Select Forecast Month Range</h4>
+      </div>
+      <br>
+      <mat-card-content [style.height.px]="'195'">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-evenly start">
+        <mat-form-field>
+          <mat-label>From Month</mat-label>
+          <input matInput [value]="startMonth" readonly>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-evenly end">
+        <mat-form-field>
+          <mat-label>End Month</mat-label>
+          <select matNativeControl (change)="endMonth($event.target.value)">
+            <option selected [value]="null">select month</option>
+            <option *ngFor="let month of endMonths" [value]="month">
+              {{month}}
+          </option>
+          </select>
+        </mat-form-field>
+      </div>
+      </div>
+      <br><br>
+      <div fxLayout="row" fxLayoutAlign="center">
+        <div>
+          <button mat-raised-button color="primary"  [disabled]="!finalMonthData.length" (click)="upload()">Generate Forecast</button>
+        </div>
+    </div>
+    </mat-card-content>
+  </mat-card>
+  </div>
+</div>
+
+ 

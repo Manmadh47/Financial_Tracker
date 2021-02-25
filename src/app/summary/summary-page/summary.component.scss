@@ -1,0 +1,27 @@
+.flex-column{
+    padding-top: 1.5em;min-height:500px;
+}
+.flex-row{
+    min-height: 2em;
+    border:1px solid rgb(221, 219, 219);
+    border-radius: 5px;
+    margin-top: 0.5em;
+  }
+ .flex-row-head{
+  color:#673AB7;
+  min-height: 2em;
+  }
+.flex-row div:first-child{
+    color:#673ab7;
+    padding-left: 1em;
+  }
+
+.mat-card-header{color: white;
+    border-radius: 0px 0px 0px 15px;
+    background-color:#ef9740 !important;
+    padding: 0.6em 0.6em 0.6em 0em!important;
+  }
+
+button{color: white;}
+
+  

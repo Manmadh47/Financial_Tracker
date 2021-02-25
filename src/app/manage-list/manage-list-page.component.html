@@ -1,0 +1,469 @@
+
+<div class="flex-column" fxLayout="column"  fxLayoutAlign="start" fxLayoutGap="20px">
+
+  <div fxFill class="flex-container" fxLayout="row" fxLayoutAlign="space-evenly start" fxLayoutGap.lg="250px" fxLayoutGap.sm="90px" fxLayoutGap.xs="20px">
+      <div fxFlex="15"  fxLayout="column" fxLayoutAlign="start">
+          <mat-form-field >
+              <mat-label>Year</mat-label>
+                <mat-select  (selectionChange)="onChangeYear($event.value)">
+                  <mat-option [value]="">Select Year</mat-option>
+                  <mat-option *ngFor="let year of yearValues" [value]="year">
+                  {{year}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+      </div>
+      <div fxFlex="15" fxLayout="column" fxLayoutAlign="center">
+           <mat-form-field >
+            <mat-label>Month</mat-label>
+            <mat-select (selectionChange)="onChangeMonth($event.value)">
+              <mat-option [value]="">select month</mat-option>
+              <mat-option *ngFor="let month of monthValues" [value]="month">
+                  {{month | titlecase }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+      <div fxFlex="15" fxLayout="column" fxLayoutAlign="end">
+          <mat-form-field>
+              <mat-label>Project Name</mat-label>
+              <mat-select (selectionChange)="onChangeProject($event.value)">
+                <mat-option [disabled]="" [value]="">select project</mat-option>
+                <mat-option *ngFor="let project of projectValues" [value]="project">
+                  {{project}}
+              </mat-option>
+              </mat-select>
+            </mat-form-field>
+      </div>
+  </div>
+ 
+  <div fxLayout="row" fxLayoutAlign="space-evenly center" >
+      <mat-card fxFlex class="card" [style.height.px]="'80'">
+          <div fxFlex="17" fxLayout="column" fxLayoutAlign="center">
+              {{latestMonth}}
+              </div>
+      <div fxFlex="0" fxLayout="column" fxLayoutAlign="space-evenly end">
+      <button mat-mini-fab (click)="confirmDialog()"
+              color="accent" 
+              [disabled]="disable"
+              matTooltip="Save Records"><mat-icon>save</mat-icon></button>
+      </div>
+      <div fxFlex="14" fxLayout="column" fxLayoutAlign="space-evenly center"> 
+      <button mat-mini-fab [color]="selectedColor" 
+              hide-gt-sm (click)="toggleEdit()"
+              [matTooltip]="toolTip"><mat-icon>{{buttonText}}</mat-icon></button>
+      </div>
+  </mat-card>
+  </div>
+
+  <div class="table-container mat-elevation-z8">
+      <form [formGroup]="tableFormArray" *ngIf="tableFormArray" autocomplete="off">
+  
+      <table mat-table [dataSource]="listData">
+         
+              <ng-container matColumnDef="UID" [sticky]="true">
+                  <th mat-header-cell *matHeaderCellDef>UID</th>
+                  <td mat-cell *matCellDef="let row let rowIndex = index" 
+                      [formGroupName]="getActualIndex(rowIndex)"> 
+                      <input type="text"  formControlName="id" hidden> 
+                      <input type="text"  formControlName="project_id" hidden>
+                      <mat-form-field appearance="outline">
+                          <input matInput  formControlName="uid" readonly [readonly]="readonly">
+                      </mat-form-field>
+                      <mat-error 
+                        *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('uid').errors?.required">
+                        This field is required.
+                      </mat-error> 
+                  </td>
+                </ng-container>
+
+          <ng-container matColumnDef="EmployeeName">
+              <th mat-header-cell *matHeaderCellDef>Name
+                  <br>
+                  <mat-form-field>
+                      <select matNativeControl [(value)]="defaultValue"
+                      (change)="onFilter($event.target.value,null,null,null,null,null)">
+                        <option value="all">All</option>
+                        <option *ngFor="let name of names" [value]="name">
+                          {{name | titlecase}}
+                      </option>
+                      </select>
+                    </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="employee_name" readonly [readonly]="readonly">
+                  </mat-form-field> 
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('employee_name').errors?.required">
+                        This field is required.
+                  </mat-error> 
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('employee_name').errors?.pattern
+                            &&!readonly">
+                      Enter alphabets only.
+                  </mat-error>
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="Track">
+              <th mat-header-cell *matHeaderCellDef>Track
+                  <mat-form-field>
+                      <select matNativeControl [(value)]="defaultValue"
+                      (change)="onFilter(null,$event.target.value,null,null,null,null)">
+                        <option value="all">All</option>
+                        <option *ngFor="let track of trackValues" [value]="track">
+                          {{track | titlecase}}
+                      </option>
+                      </select>
+                    </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let row let rowIndex = index"
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="track" 
+                      [value]="tableFormArray.at(rowIndex).get('track').value | titlecase"  readonly [readonly]="readonly">
+                  </mat-form-field>
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('track').errors?.required">
+                    This field is required.
+                  </mat-error> 
+              </td>
+            </ng-container>
+         
+          <ng-container matColumnDef="Location">
+              <th mat-header-cell *matHeaderCellDef>Location
+                  <mat-form-field>
+                      <select matNativeControl [(value)]="defaultValue"
+                      (change)="onFilter(null,null,$event.target.value,null,null,null)">
+                        <option value="all">All</option>
+                        <option *ngFor="let location of locations" [value]="location">
+                          {{location | titlecase}}
+                      </option>
+                      </select>
+                    </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline" *ngIf="readonly">
+                      <input matInput  formControlName="location" readonly>
+                  </mat-form-field> 
+                  <mat-form-field *ngIf="!readonly" id="rowSelect">
+                    <mat-select formControlName="location" value="row.location">
+                      <mat-option value="Onshore"> Onshore</mat-option>
+                      <mat-option value="Offshore"> Offshore</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </td>
+            </ng-container>
+          
+          <ng-container matColumnDef="City">
+              <th mat-header-cell *matHeaderCellDef>City
+                  <mat-form-field>
+                      <select matNativeControl [(value)]="defaultValue"
+                          (change)="onFilter(null,null,null,$event.target.value,null,null)">
+                        <option value="all">All</option>
+                        <option *ngFor="let city of cityValues" [value]="city">
+                          {{city | titlecase}}
+                      </option>
+                      </select>
+                    </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="city" readonly [readonly]="readonly">
+                  </mat-form-field>
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('city').errors?.required">
+                    This field is required.
+                  </mat-error> 
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('city').errors?.pattern">
+                    Enter alphabets only.
+                  </mat-error>
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="EngagementType">
+              <th mat-header-cell *matHeaderCellDef>Engagement Type 
+                  <mat-form-field>
+                      <select matNativeControl [(value)]="defaultValue"
+                      (change)="onFilter(null,null,null,null,$event.target.value,null)">
+                        <option value="all">All</option>
+                        <option *ngFor="let engagement_type of eng_types" [value]="engagement_type">
+                          {{engagement_type | titlecase}}
+                      </option>
+                      </select>
+                  </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="engagement_type" readonly [readonly]="readonly">
+                  </mat-form-field>
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('engagement_type').errors?.required">
+                    This field is required.
+                  </mat-error>  
+              </td>
+            </ng-container>
+          
+          <ng-container matColumnDef="EmployeeType">
+              <th mat-header-cell *matHeaderCellDef>Employee Type 
+                  <mat-form-field>
+                      <select matNativeControl [(value)]="defaultValue"
+                      (change)="onFilter(null,null,null,null,null,$event.target.value)">
+                        <option value="all">All</option>
+                        <option *ngFor="let employee_type of emp_types" [value]="employee_type">
+                          {{employee_type | titlecase}}
+                      </option>
+                      </select>
+                    </mat-form-field>
+              </th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="employee_type" readonly [readonly]="readonly">
+                  </mat-form-field> 
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="AvailableHours">
+              <th mat-header-cell *matHeaderCellDef>Available Hours </th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="available_hours" readonly [readonly]="readonly">
+                  </mat-form-field> 
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('available_hours').errors?.required">
+                    This field is required.
+                 </mat-error>
+                 <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('available_hours').errors?.pattern">
+                    Enter numbers or decimals(.00)
+                 </mat-error>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="BilledHours">
+              <th mat-header-cell *matHeaderCellDef>Billed Hours</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="billed_hours" readonly [readonly]="readonly">
+                  </mat-form-field>
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('billed_hours').errors?.required">
+                    This field is required.
+                 </mat-error>
+                 <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('billed_hours').errors?.pattern">
+                    Enter numbers or decimals(.00)
+                 </mat-error> 
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="NBHours">
+              <th mat-header-cell *matHeaderCellDef>NB Hours </th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="nb_hours" readonly>
+                  </mat-form-field> 
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="NBCategory">
+              <th mat-header-cell *matHeaderCellDef>NB Category </th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline" 
+                      *ngIf="readonly">
+                      <input matInput  formControlName="nb_category" readonly [readonly]="readonly">
+                  </mat-form-field> 
+                  <mat-form-field id="rowSelect"
+                    *ngIf="(tableFormArray.at(getActualIndex(rowIndex)).get('nb_hours').value>0)&&!readonly">
+                      <mat-select formControlName="nb_category" value="row.nb_category">
+                        <mat-option value="V">V</mat-option>
+                        <mat-option value="P">P</mat-option>
+                        <mat-option value="U">U</mat-option>
+                        <mat-option value="C">C</mat-option>
+                        <mat-option value="K">K</mat-option>
+                        <mat-option value="R">R</mat-option>
+                        <mat-option value="A">A</mat-option>
+                        <mat-option value="N">N</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="BillRate">
+              <th mat-header-cell *matHeaderCellDef>Bill Rate</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline" *ngIf="readonly">
+                      <input matInput  formControlName="bill_rate" readonly>
+                  </mat-form-field> 
+                  <mat-form-field *ngIf="!readonly" id="rowSelect">
+                      <mat-select matNativeControl formControlName="bill_rate" value="row.bill_rate">
+                        <mat-option *ngFor="let rate of billRates" [value]="rate">
+                          {{rate}}
+                      </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="TotalRevenue">
+              <th mat-header-cell *matHeaderCellDef>Total Revenue</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="total_revenue" readonly>
+                  </mat-form-field> 
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="CostRate">
+              <th mat-header-cell *matHeaderCellDef>Cost Rate</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="cost_rate" readonly [readonly]="readonly">
+                  </mat-form-field>
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('cost_rate').errors?.required">
+                    This field is required.
+                 </mat-error>
+                 <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('cost_rate').errors?.pattern
+                      &&!readonly">
+                    Enter numbers or decimals(.00)
+                 </mat-error> 
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="CostHours">
+              <th mat-header-cell *matHeaderCellDef>Cost Hours</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="cost_hours" readonly [readonly]="readonly">
+                  </mat-form-field>
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('cost_hours').errors?.required">
+                    This field is required.
+                 </mat-error>
+                 <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('cost_hours').errors?.pattern">
+                    Enter numbers or decimals(.00)
+                 </mat-error> 
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="TotalExpenses">
+              <th mat-header-cell *matHeaderCellDef>Total Expenses</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="total_expenses" readonly>
+                  </mat-form-field> 
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="Month">
+              <th mat-header-cell *matHeaderCellDef>Month</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="month" readonly [readonly]="readonly">
+                  </mat-form-field>
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('month').errors?.required">
+                    This field is required.
+                  </mat-error>
+                  <mat-error 
+                      *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('month').errors?.pattern">
+                      Enter alphabets only.
+                  </mat-error>
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="Year">
+              <th mat-header-cell *matHeaderCellDef>Year</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput formControlName="year" readonly [readonly]="readonly"minlength="4" maxlength="4">
+                  </mat-form-field>
+                  <mat-error 
+                    *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('year').errors?.required">
+                    This field is required.
+                  </mat-error>
+                  <mat-error 
+                      *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('year').errors?.pattern">
+                      Enter numbers only.
+                  </mat-error>
+                  <mat-error 
+                      *ngIf="this.tableFormArray.at(getActualIndex(rowIndex)).get('year').errors?.minlength">
+                       Enter minimum 4 characters.
+                  </mat-error>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="StartDate">
+              <th mat-header-cell *matHeaderCellDef>Start Date</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)">
+                  <mat-form-field appearance="outline"  id="dateSelect" *ngIf="readonly">
+                    <input matInput  formControlName="start_date" readonly>
+                  </mat-form-field> 
+                  <mat-form-field appearance="outline" id="dateSelect" *ngIf="!readonly">
+                    <input matInput [matDatepicker]="picker1" formControlName="start_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="EndDate">
+              <th mat-header-cell *matHeaderCellDef>End Date</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline"  id="dateSelect" *ngIf="readonly">
+                    <input matInput [matDatepicker] formControlName="end_date" readonly>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" id="dateSelect" *ngIf="!readonly">
+                    <input matInput [matDatepicker]="picker1" formControlName="end_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+              </td>
+            </ng-container>
+
+          <ng-container matColumnDef="Remarks">
+              <th mat-header-cell *matHeaderCellDef>Remarks</th>
+              <td mat-cell *matCellDef="let row let rowIndex = index" 
+                  [formGroupName]="getActualIndex(rowIndex)"> 
+                  <mat-form-field appearance="outline">
+                      <input matInput  formControlName="remarks" readonly [readonly]="readonly">
+                  </mat-form-field> 
+              </td>
+            </ng-container>
+          
+          <ng-container matColumnDef="star" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef> <mat-icon>keyboard_arrow_right</mat-icon></th>
+              <td mat-cell *matCellDef="let element">
+              </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      </form>
+  </div>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons ></mat-paginator>
+</div>

@@ -1,0 +1,24 @@
+.flex-container{
+    margin-top: 1.5em;
+}
+.table-container {
+    margin-top: 2.5em;
+    overflow: auto;
+    max-height: 400px;
+  }
+th:not(:last-child){
+    text-align: center!important;
+    font-size: 1em;
+    color:#673AB7;
+    border-right:1px solid #673AB7!important;
+}
+table {
+    width: 200%;
+  }
+td{
+    word-spacing: 0.5px;
+    text-align: center!important;
+    border-right: 0.1px solid rgb(231, 226, 226);
+    margin-top: 0.5em;
+}
+td:first-child{ text-align:left!important;}

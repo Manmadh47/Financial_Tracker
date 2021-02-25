@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiURL : 'https://localhost:44304/api/Revenuetracker',
+  yearsURL:'https://localhost:44304/api/Revenuetracker/year',
+  monthsURL:'https://localhost:44304/api/Revenuetracker/monthsByYear',
+  dataByValues:'https://localhost:44304/api/Revenuetracker/resourceByYearAndMonth',
+  latestData:'https://localhost:44304/api/Revenuetracker/getLatestRecords',
+  holidaysURL:'https://localhost:44304/api/Holidays',
+  billRatesURL:'https://localhost:44304/api/BillRate',
+  forecastURL:'https://localhost:44304/api/Revenuetracker/forecast',
 };
 
 /*

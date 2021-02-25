@@ -1,0 +1,51 @@
+.flex-column{
+    margin-top: 1.5em;
+}
+
+.table-container {
+    height: 330px;
+    margin-left: 2.5em;margin-right: 2.5em;
+    overflow: auto;
+  }
+.card{
+    margin-left: 2.5em;margin-right: 2.5em;
+  }
+ 
+th:not(:last-child){
+    text-align: center!important;
+    font-size: 1em;
+    color:#673AB7;
+    border-right:1px solid #673AB7!important;
+}
+
+input:not([readonly]){
+      &:focus{
+        color: #673AB7;
+        font-size: 16px;
+        border-radius: 10px;
+      }
+  }
+table{
+    width: 200%;
+  }
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: transparent;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+td{
+    word-spacing: 0.5px;
+    border-right: 0.1px solid rgb(231, 226, 226);
+}
+
+input{
+    text-align: center!important;
+    justify-content: center!important;
+  }
+#rowSelect{
+  margin-right:1.5em!important; margin-left:1.5em!important;
+}
+#dateSelect{
+  max-width: 15em!important;
+}
